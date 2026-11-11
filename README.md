@@ -1,3 +1,5 @@
-# lab51-practica-individual
+## Documentación del Laboratorio
 
-# "Esta es una prueba de la protección de rama con CI."
+Puedes encontrar el informe completo con capturas de pantalla y evidencias en el siguiente enlace:
+
+- [Ver informe del laboratorio](./INFORME.md)

@@ -1,0 +1,34 @@
+{
+  "name": "lab51-practica-individual",
+  "version": "1.0.0",
+  "description": "API CRUD con CI",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest",
+    "lint": "eslint .",
+    "test:coverage": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenjaminPereira26/lab51-practica-individual.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/BenjaminPereira26/lab51-practica-individual/issues"
+  },
+  "homepage": "https://github.com/BenjaminPereira26/lab51-practica-individual#readme",
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
+    "jest": "^30.5.2",
+    "supertest": "^7.3.2"
+  }
+}

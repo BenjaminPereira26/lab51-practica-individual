@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const variableQueNoSeUsa = 'Esto va a romper el CI a proposito';
 app.use(express.json());
 
 // Base de datos en memoria

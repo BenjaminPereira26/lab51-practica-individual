@@ -1,4 +1,4 @@
-name: CD - Build and Push
+name: CD - Build, Push and Deploy
 
 on:
   push:
@@ -28,3 +28,38 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/mi-app:${{ github.sha }}
             ${{ secrets.DOCKER_USERNAME }}/mi-app:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Desplegar en servidor remoto
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            IMAGE="${{ secrets.DOCKER_USERNAME }}/mi-app:latest"
+
+            # 1. Desplegar en puerto alterno 3001
+            docker pull $IMAGE
+            docker run -d --name mi-app-new --restart unless-stopped -p 3001:3000 $IMAGE
+
+            # 2. Esperar a que inicialice
+            sleep 5
+
+            # 3. Health check
+            if curl -sf http://localhost:3001/health; then
+              echo "Health check exitoso. Activando nuevo contenedor..."
+              docker stop mi-app || true
+              docker rm mi-app || true
+              docker run -d --name mi-app --restart unless-stopped -p 80:3000 $IMAGE
+              docker rm -f mi-app-new || true
+            else
+              echo "Health check FALLIDO. Manteniendo versión anterior."
+              docker rm -f mi-app-new || true
+              exit 1
+            fi
+
+            docker system prune -f
